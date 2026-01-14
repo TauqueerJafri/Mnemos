@@ -1,4 +1,4 @@
-import mongoose, { Schema, model} from 'mongoose';
+import mongoose, { Schema, Types, model} from 'mongoose';
 
 mongoose.connect("Connection String");
 
@@ -9,4 +9,14 @@ const userSchema = new Schema({
 
 export const UserModel = model("User", userSchema)
 
-//TODO: content table
+const contentTypes = ['image', 'video', 'article', 'audio']; // Extend as needed
+
+const contentSchema = new Schema({
+  title: { type: String, required: true },
+  link: { type: String, required: true },
+  type: { type: String, enum: contentTypes, required: true },
+  tags: [{ type: Types.ObjectId, ref: 'Tag' }],
+  userId: { type: Types.ObjectId, ref: 'User', required: true },
+});
+
+export const ContentModel = model("Content", contentSchema)
