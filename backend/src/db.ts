@@ -1,6 +1,16 @@
 import mongoose, { Schema, Types, model} from 'mongoose';
+import dotenv from 'dotenv';
 
-mongoose.connect("Connection String");
+dotenv.config();
+
+const mongoUri = process.env.MONGODB_URI || '';
+if (!mongoUri) {
+  throw new Error('MONGODB_URI not set in .env');
+}
+
+mongoose.connect(mongoUri)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },

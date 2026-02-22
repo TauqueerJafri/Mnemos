@@ -80,7 +80,7 @@ app.get('/api/v1/content', userMiddleware, async (req, res) => {
     const userId = req.userId;
     const content = await ContentModel.find({
         userId: userId
-    }).populate("userId", "username");
+    }).populate("userId", "username"); // **Populate the userId field with the username from the User collection
 
     res.json({
         content
@@ -94,7 +94,7 @@ app.delete('/api/v1/content', userMiddleware, async (req, res) => {
     await ContentModel.deleteMany({
         contentId,
         //@ts-ignore
-        userId: req.userId
+        userId: req.userId // **Ensure that the user can only delete their own content
     })
 
     res.json({
