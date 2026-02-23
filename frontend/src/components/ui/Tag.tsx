@@ -2,14 +2,14 @@ import React from 'react';
 
 interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
-  color?: 'cyan' | 'purple' | 'blue';
+  color?: 'blueLight' | 'blue' | 'blueDeep';
 }
 
-export function Tag({ children, color = 'cyan', className = '', ...props }: TagProps) {
+export function Tag({ children, color = 'blue', className = '', ...props }: TagProps) {
   const colors = {
-    cyan: "text-cyan-400/80 border-cyan-500/10 hover:border-cyan-500/30 hover:text-cyan-400",
-    purple: "text-purple-400/80 border-purple-500/10 hover:border-purple-500/30 hover:text-purple-400",
-    blue: "text-blue-400/80 border-blue-500/10 hover:border-blue-500/30 hover:text-blue-400"
+    blueLight: "text-blue-300/80 border-blue-400/10 hover:border-blue-400/30 hover:text-blue-300",
+    blue: "text-blue-400/80 border-blue-500/10 hover:border-blue-500/30 hover:text-blue-400",
+    blueDeep: "text-blue-500/80 border-blue-600/10 hover:border-blue-600/30 hover:text-blue-500"
   };
 
   return (

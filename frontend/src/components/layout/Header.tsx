@@ -1,4 +1,3 @@
-import React from 'react';
 import { Bell, Share2, Plus, Menu } from 'lucide-react';
 import { Button } from '../ui/Button';
 
@@ -21,7 +20,7 @@ export function Header({ onShareClick }: HeaderProps) {
       <div className="flex items-center gap-4 self-end sm:self-auto">
         <button className="p-2 text-gray-400 hover:text-white transition-colors relative">
           <Bell className="w-5 h-5" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-cyan-500 rounded-full border-2 border-[#0a0a0a]"></span>
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full border-2 border-[#0a0a0a]"></span>
         </button>
         <div className="h-6 w-px bg-gray-800"></div>
         <Button variant="secondary" onClick={onShareClick} className="hidden sm:flex">

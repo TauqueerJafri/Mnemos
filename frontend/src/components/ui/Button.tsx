@@ -13,13 +13,13 @@ export function Button({
   children, 
   ...props 
 }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center gap-2 font-medium transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center gap-2 font-medium transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variants = {
-    primary: "text-[#0a0a0a] bg-cyan-400 hover:bg-cyan-300 shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.5)]",
-    secondary: "text-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20",
+    primary: "text-white bg-blue-500 hover:bg-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]",
+    secondary: "text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20",
     ghost: "text-gray-400 hover:text-white hover:bg-white/5",
-    danger: "text-red-400 bg-red-400/10 hover:bg-red-400/20 border border-red-400/20"
+    danger: "text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20"
   };
 
   const sizes = {
