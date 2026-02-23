@@ -8,7 +8,6 @@ import { ShareModal } from '../components/ui/ShareModal';
 
 export default function Dashboard() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] font-sans text-gray-100 selection:bg-blue-500/30 overflow-hidden">
@@ -75,29 +74,11 @@ export default function Dashboard() {
                   <button className="p-1.5 text-gray-500 hover:text-blue-300 hover:bg-blue-500/10 rounded-md transition-colors"><X className="w-3.5 h-3.5" /></button>
                 </div>
               </div>
-              {/* This is a placeholder for the video thumbnail. When clicked, it will show the embedded YouTube video. */}
-              <div 
-                className="bg-[#1a1a1a] rounded-xl h-40 mb-6 flex items-center justify-center border border-gray-800/50 group-hover:border-blue-600/20 transition-colors relative overflow-hidden cursor-pointer"
-                onClick={() => setIsVideoPlaying(true)}
-              >
-                {!isVideoPlaying ? (
-                  <>
-                    <div className="absolute inset-0 bg-linear-to-br from-blue-600/5 to-transparent" />
-                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm border border-white/10 z-10">
-                      <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-10 border-l-white border-b-[6px] border-b-transparent ml-1" />
-                    </div>
-                  </>
-                ) : (
-                  <iframe 
-                    className="w-full h-full absolute inset-0"
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=Bjk4Qn2VAlHLPDDM&autoplay=1" 
-                    title="YouTube video player" 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    referrerPolicy="strict-origin-when-cross-origin" 
-                    allowFullScreen
-                  ></iframe>
-                )}
+              <div className="bg-[#1a1a1a] rounded-xl h-40 mb-6 flex items-center justify-center border border-gray-800/50 group-hover:border-blue-600/20 transition-colors relative overflow-hidden">
+                <div className="absolute inset-0 bg-linear-to-br from-blue-600/5 to-transparent" />
+                <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                  <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-10 border-l-white border-b-[6px] border-b-transparent ml-1" />
+                </div>
               </div>
               <div className="flex items-center justify-between mt-auto">
                 <div className="flex gap-2">
