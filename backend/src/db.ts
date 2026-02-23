@@ -12,6 +12,7 @@ mongoose.connect(mongoUri)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
+// ----------------------------------------------------------
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -19,6 +20,7 @@ const userSchema = new Schema({
 
 export const UserModel = model("User", userSchema)
 
+// ----------------------------------------------------------
 const contentTypes = ['image', 'video', 'article', 'audio']; // Extend as needed
 
 const contentSchema = new Schema({
@@ -30,3 +32,11 @@ const contentSchema = new Schema({
 });
 
 export const ContentModel = model("Content", contentSchema)
+
+// -----------------------------------------------------------
+const linkSchema = new mongoose.Schema({
+  hash: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+});
+
+export const LinkModel = model("Link", linkSchema)
