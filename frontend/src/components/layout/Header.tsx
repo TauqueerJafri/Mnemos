@@ -3,9 +3,10 @@ import { Button } from '../ui/Button';
 
 interface HeaderProps {
   onShareClick: () => void;
+  onAddClick?: () => void;
 }
 
-export function Header({ onShareClick }: HeaderProps) {
+export function Header({ onShareClick, onAddClick }: HeaderProps) {
   return (
     <header className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-8 relative z-10 gap-4">
       <div className="flex items-center gap-4">
@@ -27,7 +28,7 @@ export function Header({ onShareClick }: HeaderProps) {
           <Share2 className="w-4 h-4" />
           Share Brain
         </Button>
-        <Button variant="primary">
+        <Button variant="primary" onClick={onAddClick}>
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Add Content</span>
         </Button>
