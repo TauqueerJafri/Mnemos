@@ -15,8 +15,13 @@ app.use(express.json());
 
 // zod schemas for input validation
 const signupSchema = z.object({
-        username: z.string().min(3, 'Username must be at least 3 characters').max(50, 'Username must be at most 50 characters'),
-        password: z.string().min(6, 'Password must be at least 6 characters').max(25, 'Password must be at most 25 characters'),
+        email: z.email('Please enter a valid email address'),
+        password: z.string()
+        .min(8, 'Password must be at least 8 characters')
+        .max(25, 'Password must be at most 25 characters')
+        .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .regex(/[0-9]/, 'Password must contain at least one number')
     });
 
 app.post('/api/v1/signup', async (req, res) => {
@@ -28,12 +33,12 @@ app.post('/api/v1/signup', async (req, res) => {
         });
     }
 
-    const { username, password } = validation.data;
+    const { email, password } = validation.data;
     const hashedPassword = await bcrypt.hash(password, 10); // Hash password with bcrypt
 
     try {
         await UserModel.create({
-            username: username,
+            email: email,
             password: hashedPassword
         })
 
@@ -42,21 +47,21 @@ app.post('/api/v1/signup', async (req, res) => {
         })
     } catch (e) {
         res.status(409).json({
-            message: "Username already exists"
+            message: "Email already exists"
         })
     }
 });
 
 
 app.post('/api/v1/signin', async (req, res) => {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
-    const existingUser = await UserModel.findOne({ username });
+    const existingUser = await UserModel.findOne({ email });
 
     if (!existingUser) {
         return res.status(403).json({
-            message: "Invalid username or password"
+            message: "Invalid email or password"
         });
     }
 
@@ -70,7 +75,7 @@ app.post('/api/v1/signin', async (req, res) => {
         res.json({ token });
     } else {
         res.status(403).json({
-            message: "Invalid username or password"
+            message: "Invalid email or password"
         });
     }
 });
@@ -106,7 +111,7 @@ app.get('/api/v1/content', userMiddleware, async (req, res) => {
     }
     const content = await ContentModel.find({
         userId
-    }).populate("userId", "username"); // Populate the userId field with the username from the User collection
+    }).populate("userId", "email"); // Populate the userId field with the email from the User collection
 
     res.json({
         content
@@ -200,7 +205,7 @@ app.get('/api/v1/brain/:shareLink', async (req, res) => {
     }
 
     res.json({
-        username: user.username,
+        email: user.email,
         content: content
     })
 });
