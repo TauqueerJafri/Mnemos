@@ -4,8 +4,7 @@ import { Button } from '../components/ui/Button';
 import { ArrowRight } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { useState } from 'react';
-import { BACKEND_URL } from '../config';
-import axios from 'axios';
+import { api } from '../config';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -25,7 +24,7 @@ export default function Signup() {
     setLoading(true);
     
     try {
-      await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+      await api.post('/signup', {
         email,
         password
       });

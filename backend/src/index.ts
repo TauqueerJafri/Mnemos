@@ -7,10 +7,15 @@ import { JWT_PASSWORD } from './config.js';
 import { getUserObjectId, userMiddleware } from './middleware.js';
 import { random } from './utils.js';
 import z from 'zod';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:5173', // Update with your frontend URL
+    credentials: true // Allow cookies to be sent with requests
+}));
 app.use(express.json());
 
 // zod schemas for input validation
@@ -43,11 +48,11 @@ app.post('/api/v1/signup', async (req, res) => {
         })
 
         res.json({
-            message: "User created"
+            message: "User created successfully"
         })
     } catch (e) {
         res.status(409).json({
-            message: "Email already exists"
+            message: "User with this email already exists"
         })
     }
 });
@@ -72,12 +77,32 @@ app.post('/api/v1/signin', async (req, res) => {
             id: existingUser._id
         }, JWT_PASSWORD);
 
-        res.json({ token });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Set secure flag in production
+            sameSite: 'lax', // Prevent CSRF on POST/DELETE
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
+
+        res.json({
+            message: "Signin successful"
+        });
     } else {
         res.status(403).json({
             message: "Invalid email or password"
         });
     }
+});
+
+
+app.post('/api/v1/logout', (req, res) => {
+    res.cookie('token', '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 0
+    });
+    res.json({ message: "Logged out successfully" });
 });
 
 
@@ -126,7 +151,7 @@ app.delete('/api/v1/content', userMiddleware, async (req, res) => {
     }
     const contentId = req.body.contentId;
 
-    await ContentModel.deleteMany({
+    await ContentModel.deleteOne({
         _id: contentId,
         userId // Ensure that the user can only delete their own content
     })

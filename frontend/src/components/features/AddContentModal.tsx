@@ -4,23 +4,70 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Modal } from '../ui/Modal';
 import { CONTENT_TYPES, type ContentType } from '../../utils/contentConfig';
+import { api } from '../../config';
 
 interface AddContentModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onContentAdded?: () => void;
 }
 
-export function AddContentModal({ isOpen, onClose }: AddContentModalProps) {
+export function AddContentModal({ isOpen, onClose, onContentAdded }: AddContentModalProps) {
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
   const [type, setType] = useState<ContentType>('links');
+  const [tags, setTags] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  function resetForm() {
+    setTitle('');
+    setLink('');
+    setType('links');
+    setTags('');
+    setError('');
+  }
+
+  async function handleSubmit() {
+    if (!title.trim() || !link.trim()) {
+      setError('Title and link are required');
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+
+    try {
+      await api.post('/content', {
+        title: title.trim(),
+        link: link.trim(),
+        type,
+      });
+      resetForm();
+      onContentAdded?.();
+      onClose();
+    } catch (e: any) {
+      setError(e.response?.data?.message || 'Failed to add content. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Add New Content">
+    <Modal isOpen={isOpen} onClose={() => { resetForm(); onClose(); }} title="Add New Content">
       <div className="space-y-5">
+        {error && (
+          <p className="text-red-400 text-sm text-center">{error}</p>
+        )}
+
         {/* Title Input */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-300">Title</label>
           <Input 
-            placeholder="Enter content title" 
+            placeholder="Enter content title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            disabled={loading}
           />
         </div>
 
@@ -29,7 +76,10 @@ export function AddContentModal({ isOpen, onClose }: AddContentModalProps) {
           <label className="text-sm font-medium text-gray-300">Link</label>
           <Input 
             type="url"
-            placeholder="https://..." 
+            placeholder="https://..."
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            disabled={loading}
           />
         </div>
 
@@ -45,6 +95,7 @@ export function AddContentModal({ isOpen, onClose }: AddContentModalProps) {
                   key={t.id}
                   type="button"
                   onClick={() => setType(t.id)}
+                  disabled={loading}
                   className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
                     isSelected 
                       ? 'bg-blue-500/10 border-blue-500/50 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
@@ -65,6 +116,9 @@ export function AddContentModal({ isOpen, onClose }: AddContentModalProps) {
           <Input 
             placeholder="productivity, tech, ideas" 
             icon={<Tag className="w-4 h-4" />}
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            disabled={loading}
           />
         </div>
 
@@ -74,9 +128,11 @@ export function AddContentModal({ isOpen, onClose }: AddContentModalProps) {
             type="button" 
             variant="primary" 
             className="w-full py-3.5 text-base font-bold relative z-10"
+            onClick={handleSubmit}
+            disabled={loading}
           >
             <Plus className="w-5 h-5" />
-            Add Content
+            {loading ? 'Adding...' : 'Add Content'}
           </Button>
         </div>
       </div>

@@ -4,11 +4,13 @@ import { Header } from '../components/layout/Header';
 import { Card } from '../components/ui/Card';
 import { ShareModal } from '../components/features/ShareModal';
 import { AddContentModal } from '../components/features/AddContentModal';
+import { useContent } from '../hooks/useContent';
 
 export default function Dashboard() {
   // State to control the share modal visibility
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const { content, refresh } = useContent();
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] font-sans text-gray-100 selection:bg-blue-500/30 overflow-hidden">
@@ -26,6 +28,20 @@ export default function Dashboard() {
 
         <div className="flex-1 overflow-y-auto p-8 pt-0 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Real content from backend */}
+            {content.map((item) => (
+              <Card
+                key={item._id}
+                title={item.title}
+                link={item.link}
+                type={item.type}
+                tags={item.tags}
+                onShare={() => setIsShareModalOpen(true)}
+                onDelete={() => console.log('Delete', item._id)}
+              />
+            ))}
+
+            {/* Mock Cards (temporary) */}
             {/* Card 1 */}
             <Card 
               title="Future Projects"
@@ -76,7 +92,8 @@ export default function Dashboard() {
       <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} />
       <AddContentModal 
         isOpen={isAddModalOpen} 
-        onClose={() => setIsAddModalOpen(false)} 
+        onClose={() => setIsAddModalOpen(false)}
+        onContentAdded={refresh}
       />
     </div>
   );

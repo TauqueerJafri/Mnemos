@@ -1,6 +1,7 @@
-import { Twitter, Youtube, FileText, Link as LinkIcon, Search, Settings } from 'lucide-react';
+import { Search, Settings } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Logo } from '../ui/Logo';
+import { typeConfig, type ContentType } from '../../utils/contentConfig';
 
 export function Sidebar() {
   return (
@@ -18,20 +19,17 @@ export function Sidebar() {
 
       <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2 mt-4">Sources</div>
-        {[
-          { icon: Twitter, label: 'Tweets', count: 24 },
-          { icon: Youtube, label: 'Videos', count: 12 },
-          { icon: FileText, label: 'Documents', count: 89 },
-          { icon: LinkIcon, label: 'Links', count: 156 },
-        ].map((item, i) => (
-          <a key={i} href="#" className="flex items-center justify-between px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all group">
-            <div className="flex items-center gap-3">
-              <item.icon className="w-4 h-4 group-hover:text-blue-400 transition-colors" />
-              <span className="font-medium">{item.label}</span>
-            </div>
-            <span className="text-xs bg-[#1a1a1a] px-2 py-1 rounded-md text-gray-500 group-hover:text-gray-300">{item.count}</span>
-          </a>
-        ))}
+        {(Object.keys(typeConfig) as ContentType[]).map((key) => {
+          const { icon: Icon, label } = typeConfig[key];
+          return (
+            <a key={key} href="#" className="flex items-center justify-between px-4 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all group">
+              <div className="flex items-center gap-3">
+                <Icon className="w-4 h-4 group-hover:text-blue-400 transition-colors" />
+                <span className="font-medium">{label}s</span>
+              </div>
+            </a>
+          );
+        })}
 
         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2 mt-8">Tags</div>
         <div className="px-4 flex flex-wrap gap-2">

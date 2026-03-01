@@ -21,7 +21,7 @@ const userSchema = new Schema({
 export const UserModel = model("User", userSchema)
 
 // ----------------------------------------------------------
-const contentTypes = ['tweet', 'video', 'document', 'links']; // Extend as needed
+const contentTypes = ['tweets', 'videos', 'documents', 'links']; // Extend as needed
 
 const contentSchema = new Schema({
   title: { type: String, required: true },

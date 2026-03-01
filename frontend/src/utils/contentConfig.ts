@@ -1,8 +1,10 @@
 // Content configuration for different content types
 import { FileText, Youtube, Twitter, Link as LinkIcon } from 'lucide-react';
 
+// Content type union
 export type ContentType = 'tweets' | 'videos' | 'documents' | 'links';
 
+// Maps content types to their icons, labels, and styles
 export const typeConfig = {
   documents: {
     icon: FileText,
@@ -30,8 +32,19 @@ export const typeConfig = {
   },
 };
 
+// Derived array of content types used by AddContentModal.
 export const CONTENT_TYPES = (Object.keys(typeConfig) as ContentType[]).map((key) => ({
   id: key,
   label: typeConfig[key].label,
   icon: typeConfig[key].icon,
 }));
+
+// Content item interface of content data from the backend
+export interface ContentItem {
+  _id: string;
+  title: string;
+  link: string;
+  type: ContentType;
+  tags: string[];
+  userId: { _id: string; email: string };
+}

@@ -3,23 +3,31 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 import { Types } from 'mongoose';
 import { JWT_PASSWORD } from "./config.js";
 
-// Middleware to check if user is logged in.
+// Middleware to check if user is logged in via HTTP-only cookie.
 export const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const header = req.headers["authorization"];
-    const decoded = jwt.verify(header as string, JWT_PASSWORD)
-    if (decoded) {
+    const token = req.cookies?.token;
+
+    if (!token) {
+        res.status(403).json({
+            message: "You are not logged in"
+        });
+        return;
+    }
+
+    try {
+        const decoded = jwt.verify(token, JWT_PASSWORD);
         if (typeof decoded === "string") {
             res.status(403).json({
                 message: "You are not logged in"
-            })
-            return;    
+            });
+            return;
         }
         req.userId = (decoded as JwtPayload).id;
-        next()
-    } else {
+        next();
+    } catch (e) {
         res.status(403).json({
             message: "You are not logged in"
-        })
+        });
     }
 }
 
