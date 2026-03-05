@@ -216,7 +216,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className={`min-h-screen flex items-center justify-center relative ${showBanner ? 'pt-[84px]' : 'pt-14'}`}>
+      <section className={`min-h-screen flex items-center justify-center relative ${showBanner ? 'pt-21' : 'pt-14'}`}>
         <NeuralBackground />
         <div className="absolute inset-0 bg-linear-to-b from-[#060606]/60 via-transparent to-[#060606]/80 pointer-events-none" />
 
@@ -390,13 +390,10 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 px-6 relative">
+      <section className="py-32 px-6 relative">
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-blue-500/2 to-transparent pointer-events-none" />
         <div className="max-w-5xl mx-auto relative">
           <FadeSection className="text-center mb-16">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="mb-8 cursor-pointer">
-              <Logo hideText size="lg" />
-            </button>
             <p className="text-blue-400 text-sm font-medium uppercase tracking-widest mb-4">Your second brain awaits</p>
             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">
               Remember everything
@@ -418,14 +415,14 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/4 py-10 px-6">
+      <footer className="border-t border-white/4 pt-10 pb-3 px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div>
             <Logo size="sm" />
             <p className="text-xs text-gray-600 leading-relaxed mt-2">Your second brain for the digital age. Capture, organize, and connect everything.</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">Product</p>
+            <p className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-3">Product</p>
             <div className="space-y-2 text-sm text-gray-500">
               <a href="#features" className="block hover:text-white transition-colors">Features</a>
               <a href="#pricing" className="block hover:text-white transition-colors">Pricing</a>
@@ -433,7 +430,7 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">Legal</p>
+            <p className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-3">Legal</p>
             <div className="space-y-2 text-sm text-gray-500">
               <a href="#" className="block hover:text-white transition-colors">Privacy</a>
               <a href="#" className="block hover:text-white transition-colors">Terms</a>
@@ -441,7 +438,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-white/4 text-center text-xs text-gray-700">
+        <div className="mt-8 pt-3 pb-0 border-t border-white/4 text-center text-xs text-gray-700">
           © 2026 Mnemos. All rights reserved.
         </div>
       </footer>

@@ -3,6 +3,7 @@ import { FileText, Youtube, Twitter, Link as LinkIcon } from 'lucide-react';
 
 // Content type union
 export type ContentType = 'tweets' | 'videos' | 'documents' | 'links';
+export type ColorVariant = 'blueLight' | 'blue' | 'blueDeep';
 
 // Maps content types to their icons, labels, and styles
 export const typeConfig = {

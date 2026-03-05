@@ -1,8 +1,9 @@
 import React from 'react';
+import { type ColorVariant } from '../../utils/contentConfig';
 
 interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
-  color?: 'blueLight' | 'blue' | 'blueDeep';
+  color?: ColorVariant;
 }
 
 export function Tag({ children, color = 'blue', className = '', ...props }: TagProps) {

@@ -23,15 +23,12 @@ export default function Signin() {
     setLoading(true);
     
     try {
-      const res = await api.post('/signin', {
+      await api.post('/signin', {
         email,
         password
       });
 
-      const jwt = res.data.token; // Store the JWT token in localStorage
-      localStorage.setItem('token', jwt);
-
-      navigate('/dashboard');// Redirect to dashboard after successful signin
+      navigate('/dashboard');
     } catch (e: any) {
       setError(e.response?.data?.message || 'Signin failed. Please try again.');
     } finally {
