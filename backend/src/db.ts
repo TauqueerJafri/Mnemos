@@ -1,7 +1,5 @@
 import mongoose, { Schema, Types, model} from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import './config.js';
 
 const mongoUri = process.env.MONGODB_URI || '';
 if (!mongoUri) {
@@ -34,9 +32,9 @@ const contentSchema = new Schema({
 export const ContentModel = model("Content", contentSchema)
 
 // -----------------------------------------------------------
-const linkSchema = new mongoose.Schema({
+const linkSchema = new Schema({
   hash: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: Types.ObjectId, ref: 'User', required: true },
 });
 
 export const LinkModel = model("Link", linkSchema)

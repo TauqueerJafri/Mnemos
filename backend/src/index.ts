@@ -4,7 +4,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import { ContentModel, LinkModel, UserModel } from './db.js';
 import { JWT_PASSWORD } from './config.js';
-import { getUserObjectId, userMiddleware } from './middleware.js';
+import { userMiddleware } from './middleware.js';
 import { random } from './utils.js';
 import z from 'zod';
 import cookieParser from 'cookie-parser';
@@ -107,10 +107,7 @@ app.post('/api/v1/logout', (req, res) => {
 
 
 app.post('/api/v1/content', userMiddleware, async (req, res) => {
-    const userId = getUserObjectId(req, res);
-    if (!userId) {
-        return;
-    }
+    const userId = req.userObjectId!;
     const title = req.body.title;
     const link = req.body.link;
     const type = req.body.type;
@@ -130,10 +127,7 @@ app.post('/api/v1/content', userMiddleware, async (req, res) => {
 
 
 app.get('/api/v1/content', userMiddleware, async (req, res) => {
-    const userId = getUserObjectId(req, res);
-    if (!userId) {
-        return;
-    }
+    const userId = req.userObjectId!;
     const content = await ContentModel.find({
         userId
     }).populate("userId", "email"); // Populate the userId field with the email from the User collection
@@ -145,10 +139,7 @@ app.get('/api/v1/content', userMiddleware, async (req, res) => {
 
 
 app.delete('/api/v1/content', userMiddleware, async (req, res) => {
-    const userId = getUserObjectId(req, res);
-    if (!userId) {
-        return;
-    }
+    const userId = req.userObjectId!;
     const contentId = req.body.contentId;
 
     await ContentModel.deleteOne({
@@ -163,10 +154,7 @@ app.delete('/api/v1/content', userMiddleware, async (req, res) => {
 
 
 app.post('/api/v1/brain/share', userMiddleware, async (req, res) => {
-    const userId = getUserObjectId(req, res);
-    if (!userId) {
-        return;
-    }
+    const userId = req.userObjectId!;
     const share = req.body.share;
     if (share) {
         const existingLink = await LinkModel.findOne({

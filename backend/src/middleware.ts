@@ -3,7 +3,8 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 import { Types } from 'mongoose';
 import { JWT_PASSWORD } from "./config.js";
 
-// Middleware to check if user is logged in via HTTP-only cookie.
+// Middleware to check if user is logged in via HTTP-only cookie. 
+// If valid, it adds userId and userObjectId to the request object for downstream use.
 export const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.token;
 
@@ -23,22 +24,11 @@ export const userMiddleware = (req: Request, res: Response, next: NextFunction) 
             return;
         }
         req.userId = (decoded as JwtPayload).id;
+        req.userObjectId = new Types.ObjectId(req.userId);
         next();
     } catch (e) {
         res.status(403).json({
             message: "You are not logged in"
         });
     }
-}
-
-// Utility function to get user ObjectId from request, returns null if not logged in
-export const getUserObjectId = (req: Request, res: Response) => {
-    if (!req.userId) {
-        res.status(403).json({
-            message: "You are not logged in"
-        })
-        return null;
-    }
-
-    return new Types.ObjectId(req.userId);
 }
