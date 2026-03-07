@@ -47,6 +47,6 @@ export interface ContentItem {
   link: string;
   type: ContentType;
   tags: string[];
-  userId: String;
+  userId: string;
   createdAt: string;
 }

@@ -152,7 +152,7 @@ app.delete('/api/v1/content', userMiddleware, async (req, res) => {
     })
 });
 
-
+// create a shareable link for the user's brain
 app.post('/api/v1/brain/share', userMiddleware, async (req, res) => {
     const userId = req.userObjectId!;
     const share = req.body.share;
@@ -187,6 +187,7 @@ app.post('/api/v1/brain/share', userMiddleware, async (req, res) => {
     }
 });
 
+// fetch shared brain content using the shareable link
 app.get('/api/v1/brain/:shareLink', async (req, res) => {
     const hash = req.params.shareLink;
 

@@ -27,6 +27,7 @@ export default function Dashboard() {
         <Header 
           onShareClick={() => setIsShareModalOpen(true)} 
           onAddClick={() => setIsAddModalOpen(true)}
+          itemCount={content.length}
         />
 
         <div className="flex-1 overflow-y-auto p-8 pt-0 relative z-10">

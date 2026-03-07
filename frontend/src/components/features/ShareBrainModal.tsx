@@ -3,6 +3,7 @@ import { Share2, Copy, Check, Loader2 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
 import { api, BACKEND_URL } from '../../config';
+import { itemCounter } from '../../utils/counter';
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -76,7 +77,7 @@ export function ShareModal({ isOpen, onClose, itemCount }: ShareModalProps) {
           </div>
 
           <p className="text-center text-sm text-gray-500">
-            {itemCount} {itemCount === 1 ? 'item' : 'items'} will be shared
+            {itemCounter(itemCount, 'item')} will be shared
           </p>
         </>
       ) : (
@@ -96,7 +97,7 @@ export function ShareModal({ isOpen, onClose, itemCount }: ShareModalProps) {
           </Button>
 
           <p className="text-center text-sm text-gray-500 mt-4">
-            {itemCount} {itemCount === 1 ? 'item' : 'items'} will be shared
+            {itemCounter(itemCount, 'item')} will be shared
           </p>
         </>
       )}

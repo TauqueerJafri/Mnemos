@@ -1,12 +1,14 @@
 import { Bell, Share2, Plus, Menu } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { itemCounter } from '../../utils/counter';
 
 interface HeaderProps {
   onShareClick: () => void;
   onAddClick?: () => void;
+  itemCount?: number;
 }
 
-export function Header({ onShareClick, onAddClick }: HeaderProps) {
+export function Header({ onShareClick, onAddClick, itemCount = 0 }: HeaderProps) {
   return (
     <header className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-8 relative z-10 gap-4">
       <div className="flex items-center gap-4">
@@ -15,7 +17,7 @@ export function Header({ onShareClick, onAddClick }: HeaderProps) {
         </button>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">All Notes</h1>
-          {/* <p className="text-gray-500 text-sm">You have 281 items in your brain.</p> */}
+          <p className="text-gray-500 text-sm">You have {itemCounter(itemCount, 'item')} in your brain.</p>
         </div>
       </div>
       <div className="flex items-center gap-4 self-end sm:self-auto">
