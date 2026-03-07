@@ -13,7 +13,8 @@ export default function Dashboard() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [shareContent, setShareContent] = useState<{ title: string; link: string; type: ContentType } | null>(null);
-  const { content, refresh } = useContent();
+  const { content, refresh, deleteContent } = useContent();
+  const [hiddenMockCards, setHiddenMockCards] = useState<Set<string>>(new Set());
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] font-sans text-gray-100 selection:bg-blue-500/30 overflow-hidden">
@@ -42,54 +43,58 @@ export default function Dashboard() {
                 tags={item.tags}
                 date={new Date(item.createdAt).toLocaleDateString()}
                 onShare={() => setShareContent({ title: item.title, link: item.link, type: item.type })}
-                onDelete={() => console.log('Delete', item._id)}
+                onDelete={() => deleteContent(item._id)}
               />
             ))}
 
             {/* Mock Cards (temporary) */}
-            {/* Card 1 */}
-            <Card 
-              title="Future Projects"
-              link="https://docs.google.com/document/d/1..."
-              type="documents"
-              tags={['productivity', 'ideas']}
-              date="10/03/2024"
-              onShare={() => setShareContent({ title: 'Future Projects', link: 'https://docs.google.com/document/d/1...', type: 'documents' })}
-              onDelete={() => console.log('Delete')}
-            />
+            {!hiddenMockCards.has('mock-1') && (
+              <Card 
+                title="Future Projects"
+                link="https://docs.google.com/document/d/1..."
+                type="documents"
+                tags={['productivity', 'ideas']}
+                date="10/03/2024"
+                onShare={() => setShareContent({ title: 'Future Projects', link: 'https://docs.google.com/document/d/1...', type: 'documents' })}
+                onDelete={() => setHiddenMockCards(prev => new Set(prev).add('mock-1'))}
+              />
+            )}
 
-            {/* Card 2 */}
-            <Card 
-              title="How to Build a Second Brain"
-              link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              type="videos"
-              tags={['productivity', 'learning']}
-              date="09/03/2024"
-              onShare={() => setShareContent({ title: 'How to Build a Second Brain', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'videos' })}
-              onDelete={() => console.log('Delete')}
-            />
+            {!hiddenMockCards.has('mock-2') && (
+              <Card 
+                title="How to Build a Second Brain"
+                link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                type="videos"
+                tags={['productivity', 'learning']}
+                date="09/03/2024"
+                onShare={() => setShareContent({ title: 'How to Build a Second Brain', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'videos' })}
+                onDelete={() => setHiddenMockCards(prev => new Set(prev).add('mock-2'))}
+              />
+            )}
 
-            {/* Card 3 */}
-            <Card 
-              title="Productivity Tip"
-              link="https://twitter.com/user/status/123..."
-              type="tweets"
-              tags={['productivity', 'learning']}
-              date="08/03/2024"
-              onShare={() => setShareContent({ title: 'Productivity Tip', link: 'https://twitter.com/user/status/123...', type: 'tweets' })}
-              onDelete={() => console.log('Delete')}
-            />
+            {!hiddenMockCards.has('mock-3') && (
+              <Card 
+                title="Productivity Tip"
+                link="https://twitter.com/user/status/123..."
+                type="tweets"
+                tags={['productivity', 'learning']}
+                date="08/03/2024"
+                onShare={() => setShareContent({ title: 'Productivity Tip', link: 'https://twitter.com/user/status/123...', type: 'tweets' })}
+                onDelete={() => setHiddenMockCards(prev => new Set(prev).add('mock-3'))}
+              />
+            )}
 
-            {/* Card 4 */}
-            <Card 
-              title="Useful Resource"
-              link="https://example.com/useful-resource"
-              type="links"
-              tags={['resource', 'web']}
-              date="07/03/2024"
-              onShare={() => setShareContent({ title: 'Useful Resource', link: 'https://example.com/useful-resource', type: 'links' })}
-              onDelete={() => console.log('Delete')}
-            />
+            {!hiddenMockCards.has('mock-4') && (
+              <Card 
+                title="Useful Resource"
+                link="https://example.com/useful-resource"
+                type="links"
+                tags={['resource', 'web']}
+                date="07/03/2024"
+                onShare={() => setShareContent({ title: 'Useful Resource', link: 'https://example.com/useful-resource', type: 'links' })}
+                onDelete={() => setHiddenMockCards(prev => new Set(prev).add('mock-4'))}
+              />
+            )}
           </div>
         </div>
       </main>

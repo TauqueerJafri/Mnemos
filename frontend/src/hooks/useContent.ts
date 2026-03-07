@@ -21,5 +21,16 @@ export function useContent() {
     fetchContent();
   }, []);
 
-  return { content, loading, refresh: fetchContent };
+  async function deleteContent(contentId: string) {
+    try {
+      await api.delete(`${BACKEND_URL}/api/v1/content`, {
+        data: { contentId }
+      });
+      setContent(prev => prev.filter(item => item._id !== contentId));
+    } catch (e) {
+      console.error('Failed to delete content', e);
+    }
+  }
+
+  return { content, loading, refresh: fetchContent, deleteContent };
 }
