@@ -15,7 +15,7 @@ export function Header({ onShareClick, onAddClick }: HeaderProps) {
         </button>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">All Notes</h1>
-          <p className="text-gray-500 text-sm">You have 281 items in your brain.</p>
+          {/* <p className="text-gray-500 text-sm">You have 281 items in your brain.</p> */}
         </div>
       </div>
       <div className="flex items-center gap-4 self-end sm:self-auto">

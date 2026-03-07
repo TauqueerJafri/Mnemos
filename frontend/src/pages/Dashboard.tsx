@@ -36,6 +36,7 @@ export default function Dashboard() {
                 link={item.link}
                 type={item.type}
                 tags={item.tags}
+                date={new Date(item.createdAt).toLocaleDateString()}
                 onShare={() => setIsShareModalOpen(true)}
                 onDelete={() => console.log('Delete', item._id)}
               />

@@ -4,7 +4,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Modal } from '../ui/Modal';
 import { CONTENT_TYPES, type ContentType } from '../../utils/contentConfig';
-import { api } from '../../config';
+import { api, BACKEND_URL } from '../../config';
 
 interface AddContentModalProps {
   isOpen: boolean;
@@ -38,7 +38,7 @@ export function AddContentModal({ isOpen, onClose, onContentAdded }: AddContentM
     setLoading(true);
 
     try {
-      await api.post('/content', {
+      await api.post(`${BACKEND_URL}/api/v1/content`, {
         title: title.trim(),
         link: link.trim(),
         type,

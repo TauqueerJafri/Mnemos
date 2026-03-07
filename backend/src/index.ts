@@ -130,7 +130,7 @@ app.get('/api/v1/content', userMiddleware, async (req, res) => {
     const userId = req.userObjectId!;
     const content = await ContentModel.find({
         userId
-    }).populate("userId", "email"); // Populate the userId field with the email from the User collection
+    })
 
     res.json({
         content

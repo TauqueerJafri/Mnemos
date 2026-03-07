@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button';
 import { ArrowRight } from 'lucide-react';
 import { Logo } from '../components/ui/Logo';
 import { useState } from 'react';
-import { api } from '../config';
+import { api, BACKEND_URL } from '../config';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ export default function Signup() {
     setLoading(true);
     
     try {
-      await api.post('/signup', {
+      await api.post(`${BACKEND_URL}/api/v1/signup`, {
         email,
         password
       });

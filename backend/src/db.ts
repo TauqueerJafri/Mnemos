@@ -27,7 +27,7 @@ const contentSchema = new Schema({
   type: { type: String, enum: contentTypes, required: true },
   tags: [{ type: Types.ObjectId, ref: 'Tag' }],
   userId: { type: Types.ObjectId, ref: 'User', required: true },
-});
+}, { timestamps: true });
 
 export const ContentModel = model("Content", contentSchema)
 

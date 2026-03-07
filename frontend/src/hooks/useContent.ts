@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { api } from '../config';
+import { api, BACKEND_URL } from '../config';
 import type { ContentItem } from '../utils/contentConfig';
 
 export function useContent() {
@@ -8,7 +8,7 @@ export function useContent() {
 
   async function fetchContent() {
     try {
-      const res = await api.get('/content');
+      const res = await api.get(`${BACKEND_URL}/api/v1/content`);
       setContent(res.data.content);
     } catch (e) {
       console.error('Failed to fetch content', e);

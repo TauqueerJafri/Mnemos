@@ -40,12 +40,13 @@ export const CONTENT_TYPES = (Object.keys(typeConfig) as ContentType[]).map((key
   icon: typeConfig[key].icon,
 }));
 
-// Content item interface of content data from the backend
+// Interface for content items returned from the backend
 export interface ContentItem {
   _id: string;
   title: string;
   link: string;
   type: ContentType;
   tags: string[];
-  userId: { _id: string; email: string };
+  userId: String;
+  createdAt: string;
 }
