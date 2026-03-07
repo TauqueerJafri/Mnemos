@@ -2,14 +2,17 @@ import { useState } from 'react';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
 import { Card } from '../components/ui/Card';
-import { ShareModal } from '../components/features/ShareModal';
+import { ShareModal } from '../components/features/ShareBrainModal';
+import { ShareContentModal } from '../components/features/ShareContentModal';
 import { AddContentModal } from '../components/features/AddContentModal';
 import { useContent } from '../hooks/useContent';
+import type { ContentType } from '../utils/contentConfig';
 
 export default function Dashboard() {
   // State to control the share modal visibility
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [shareContent, setShareContent] = useState<{ title: string; link: string; type: ContentType } | null>(null);
   const { content, refresh } = useContent();
 
   return (
@@ -37,7 +40,7 @@ export default function Dashboard() {
                 type={item.type}
                 tags={item.tags}
                 date={new Date(item.createdAt).toLocaleDateString()}
-                onShare={() => setIsShareModalOpen(true)}
+                onShare={() => setShareContent({ title: item.title, link: item.link, type: item.type })}
                 onDelete={() => console.log('Delete', item._id)}
               />
             ))}
@@ -50,7 +53,7 @@ export default function Dashboard() {
               type="documents"
               tags={['productivity', 'ideas']}
               date="10/03/2024"
-              onShare={() => setIsShareModalOpen(true)}
+              onShare={() => setShareContent({ title: 'Future Projects', link: 'https://docs.google.com/document/d/1...', type: 'documents' })}
               onDelete={() => console.log('Delete')}
             />
 
@@ -61,7 +64,7 @@ export default function Dashboard() {
               type="videos"
               tags={['productivity', 'learning']}
               date="09/03/2024"
-              onShare={() => setIsShareModalOpen(true)}
+              onShare={() => setShareContent({ title: 'How to Build a Second Brain', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'videos' })}
               onDelete={() => console.log('Delete')}
             />
 
@@ -72,7 +75,7 @@ export default function Dashboard() {
               type="tweets"
               tags={['productivity', 'learning']}
               date="08/03/2024"
-              onShare={() => setIsShareModalOpen(true)}
+              onShare={() => setShareContent({ title: 'Productivity Tip', link: 'https://twitter.com/user/status/123...', type: 'tweets' })}
               onDelete={() => console.log('Delete')}
             />
 
@@ -83,14 +86,23 @@ export default function Dashboard() {
               type="links"
               tags={['resource', 'web']}
               date="07/03/2024"
-              onShare={() => setIsShareModalOpen(true)}
+              onShare={() => setShareContent({ title: 'Useful Resource', link: 'https://example.com/useful-resource', type: 'links' })}
               onDelete={() => console.log('Delete')}
             />
           </div>
         </div>
       </main>
 
-      <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} />
+      <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} itemCount={content.length} />
+      {shareContent && (
+        <ShareContentModal
+          isOpen={!!shareContent}
+          onClose={() => setShareContent(null)}
+          title={shareContent.title}
+          link={shareContent.link}
+          type={shareContent.type}
+        />
+      )}
       <AddContentModal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)}
