@@ -229,7 +229,9 @@ app.get('/api/v1/brain/:shareLink', async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Server running");
+  res.status(200).json({
+    message: "Server is running"
+  })
 });
 
 const PORT = process.env.PORT || 3000;
