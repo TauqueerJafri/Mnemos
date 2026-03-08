@@ -10,10 +10,11 @@ import z from 'zod';
 import cookieParser from 'cookie-parser';
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173', // Update with your frontend URL
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Update with your frontend URL
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
@@ -77,10 +78,11 @@ app.post('/api/v1/signin', async (req, res) => {
             id: existingUser._id
         }, JWT_PASSWORD);
 
+        const isProduction = process.env.NODE_ENV === 'production';
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Set secure flag in production
-            sameSite: 'lax', // Prevent CSRF on POST/DELETE
+            secure: isProduction, // Set secure flag in production
+            sameSite: isProduction ? 'strict' : 'lax', // Prevent CSRF on POST/DELETE
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
@@ -96,10 +98,12 @@ app.post('/api/v1/signin', async (req, res) => {
 
 
 app.post('/api/v1/logout', (req, res) => {
+    const isProduction = process.env.NODE_ENV === 'production';
+
     res.cookie('token', '', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'strict' : 'lax',
         maxAge: 0
     });
     res.json({ message: "Logged out successfully" });
@@ -224,6 +228,9 @@ app.get('/api/v1/brain/:shareLink', async (req, res) => {
     })
 });
 
-app.listen(3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 export default app;
