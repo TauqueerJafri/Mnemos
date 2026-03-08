@@ -228,7 +228,7 @@ app.get('/api/v1/brain/:shareLink', async (req, res) => {
     })
 });
 
-app.get("/health", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Server running");
 });
 
