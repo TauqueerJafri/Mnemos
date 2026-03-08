@@ -103,7 +103,7 @@ app.post('/api/v1/logout', (req, res) => {
     res.cookie('token', '', {
         httpOnly: true,
         secure: isProduction,
-        sameSite: isProduction ? 'strict' : 'lax',
+        sameSite: isProduction ? 'none' : 'lax',
         maxAge: 0
     });
     res.json({ message: "Logged out successfully" });
