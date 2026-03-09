@@ -127,7 +127,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
     </aside>
 
     {toast && createPortal(
-      <div className="fixed bottom-6 right-6 z-100 flex items-center gap-3 px-5 py-3 bg-[#1a1a1a] border border-amber-500/30 rounded-lg shadow-lg shadow-amber-500/10 animate-[slideUp_0.3s_ease-out]">
+      <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 sm:max-w-sm z-100 flex items-center gap-3 px-5 py-3 bg-[#1a1a1a] border border-amber-500/30 rounded-lg shadow-lg shadow-amber-500/10 animate-[slideUp_0.3s_ease-out]">
         <Construction className="w-5 h-5 text-amber-400 shrink-0" />
         <p className="text-sm text-amber-300">This feature is currently in development. Stay tuned!</p>
       </div>,
