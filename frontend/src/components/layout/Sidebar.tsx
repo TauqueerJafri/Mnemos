@@ -3,11 +3,30 @@ import { Input } from '../ui/Input';
 import { Logo } from '../ui/Logo';
 import { typeConfig, type ContentType } from '../../utils/contentConfig';
 
-export function Sidebar() {
+interface SidebarProps {
+  open?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ open = false, onClose }: SidebarProps) {
   return (
-    <aside className="hidden md:flex w-72 bg-[#111111] border-r border-gray-800/50 flex-col relative overflow-hidden shrink-0">
-      <div className="absolute top-0 left-0 w-full h-32 bg-linear-to-b from-blue-500/10 to-transparent pointer-events-none" />
-      
+    <>
+      {/* Overlay backdrop for mobile/medium */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-72 bg-[#111111] border-r border-gray-800/50 flex flex-col overflow-hidden shrink-0
+        transform transition-transform duration-200 ease-in-out
+        lg:relative lg:translate-x-0 lg:flex
+        ${open ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="absolute top-0 left-0 w-full h-32 bg-linear-to-b from-blue-500/10 to-transparent pointer-events-none" />
+
       <Logo />
       
       <div className="px-6 mb-6">
@@ -54,5 +73,6 @@ export function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }

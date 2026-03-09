@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
 import { Card } from '../components/ui/Card';
@@ -15,23 +15,27 @@ export default function Dashboard() {
   const [shareContent, setShareContent] = useState<{ title: string; link: string; type: ContentType } | null>(null);
   const { content, refresh, deleteContent } = useContent();
   const [hiddenMockCards, setHiddenMockCards] = useState<Set<string>>(new Set());
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
 
   return (
     <div className="flex h-screen bg-[#0a0a0a] font-sans text-gray-100 selection:bg-blue-500/30 overflow-hidden">
-      <Sidebar />
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden relative min-w-0">
         {/* Background glow */}
         <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
-        
-        <Header 
-          onShareClick={() => setIsShareModalOpen(true)} 
-          onAddClick={() => setIsAddModalOpen(true)}
-          itemCount={content.length}
-        />
 
-        <div className="flex-1 overflow-y-auto p-8 pt-0 relative z-10">
+        <div className="flex-1 overflow-y-auto p-8 pt-0 relative z-10" style={{ colorScheme: 'dark' }}>
+
+          <Header
+            onShareClick={() => setIsShareModalOpen(true)}
+            onAddClick={() => setIsAddModalOpen(true)}
+            itemCount={content.length}
+            onMenuClick={toggleSidebar}
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Real content from backend */}
             {content.map((item) => (
@@ -49,7 +53,7 @@ export default function Dashboard() {
 
             {/* Mock Cards (temporary) */}
             {!hiddenMockCards.has('mock-1') && (
-              <Card 
+              <Card
                 title="Future Projects"
                 link="https://docs.google.com/document/d/1..."
                 type="documents"
@@ -61,7 +65,7 @@ export default function Dashboard() {
             )}
 
             {!hiddenMockCards.has('mock-2') && (
-              <Card 
+              <Card
                 title="How to Build a Second Brain"
                 link="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                 type="videos"
@@ -73,7 +77,7 @@ export default function Dashboard() {
             )}
 
             {!hiddenMockCards.has('mock-3') && (
-              <Card 
+              <Card
                 title="Productivity Tip"
                 link="https://twitter.com/user/status/123..."
                 type="tweets"
@@ -85,7 +89,7 @@ export default function Dashboard() {
             )}
 
             {!hiddenMockCards.has('mock-4') && (
-              <Card 
+              <Card
                 title="Useful Resource"
                 link="https://example.com/useful-resource"
                 type="links"
@@ -109,8 +113,8 @@ export default function Dashboard() {
           type={shareContent.type}
         />
       )}
-      <AddContentModal 
-        isOpen={isAddModalOpen} 
+      <AddContentModal
+        isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onContentAdded={refresh}
       />

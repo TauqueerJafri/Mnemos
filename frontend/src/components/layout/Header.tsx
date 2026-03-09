@@ -6,13 +6,14 @@ interface HeaderProps {
   onShareClick: () => void;
   onAddClick?: () => void;
   itemCount?: number;
+  onMenuClick?: () => void;
 }
 
-export function Header({ onShareClick, onAddClick, itemCount = 0 }: HeaderProps) {
+export function Header({ onShareClick, onAddClick, itemCount = 0, onMenuClick }: HeaderProps) {
   return (
-    <header className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-8 relative z-10 gap-4">
-      <div className="flex items-center gap-4">
-        <button className="md:hidden p-2 text-gray-400 hover:text-white transition-colors">
+    <header className="flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 relative z-10 gap-4">
+      <div className="flex items-center gap-3">
+        <button className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors" onClick={onMenuClick}>
           <Menu className="w-6 h-6" />
         </button>
         <div>
@@ -26,9 +27,9 @@ export function Header({ onShareClick, onAddClick, itemCount = 0 }: HeaderProps)
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full border-2 border-[#0a0a0a]"></span>
         </button>
         <div className="h-6 w-px bg-gray-800"></div>
-        <Button variant="secondary" onClick={onShareClick} className="hidden sm:flex">
+        <Button variant="secondary" onClick={onShareClick}>
           <Share2 className="w-4 h-4" />
-          Share Brain
+          <span className="hidden sm:inline">Share Brain</span>
         </Button>
         <Button variant="primary" onClick={onAddClick}>
           <Plus className="w-4 h-4" />
